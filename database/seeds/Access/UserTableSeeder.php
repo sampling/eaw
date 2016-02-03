@@ -28,8 +28,8 @@ class UserTableSeeder extends Seeder
         $users = [
             [
                 'name'              => 'Admin Istrator',
-                'email'             => 'admin@admin.com',
-                'password'          => bcrypt('1234'),
+                'email'             => 'ida@immedio.co.uk',
+                'password'          => bcrypt('EawMapyTest123'),
                 'confirmation_code' => md5(uniqid(mt_rand(), true)),
                 'confirmed'         => true,
                 'created_at'        => Carbon::now(),
