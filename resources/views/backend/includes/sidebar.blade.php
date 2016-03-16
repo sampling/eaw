@@ -34,12 +34,17 @@
             <li class="{{ Active::pattern('admin/dashboard') }}">
                 <a href="{!! route('admin.dashboard') !!}"><span>{{ trans('menus.backend.sidebar.dashboard') }}</span></a>
             </li>
+            @permission('view-maps-management')
+                <li class="{{ Active::pattern('admin/maps/*') }}">
+                    <a href="{!!url('admin/maps')!!}"><span>{{ trans('menus.backend.maps.title') }}</span></a>
+                </li>
+            @endauth
 
             @permission('view-access-management')
                 <li class="{{ Active::pattern('admin/access/*') }}">
                     <a href="{!!url('admin/access/users')!!}"><span>{{ trans('menus.backend.access.title') }}</span></a>
                 </li>
-            @endauth
+            
 
             <li class="{{ Active::pattern('admin/log-viewer*') }} treeview">
                 <a href="#">
@@ -55,7 +60,7 @@
                     </li>
                 </ul>
             </li>
-
+            @endauth
         </ul><!-- /.sidebar-menu -->
     </section>
     <!-- /.sidebar -->

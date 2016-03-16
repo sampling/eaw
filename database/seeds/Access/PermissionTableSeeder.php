@@ -169,6 +169,7 @@ class PermissionTableSeeder extends Seeder
         /**
          * Role
          */
+/*
         $permission_model          = config('access.permission');
         $createRoles               = new $permission_model;
         $createRoles->name         = 'create-roles';
@@ -201,7 +202,7 @@ class PermissionTableSeeder extends Seeder
         $deleteRoles->created_at   = Carbon::now();
         $deleteRoles->updated_at   = Carbon::now();
         $deleteRoles->save();
-
+*/
         /**
          * Permission Group
          */
