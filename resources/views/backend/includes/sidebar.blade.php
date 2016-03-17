@@ -36,7 +36,7 @@
             </li>
             @permission('view-maps-management')
                 <li class="{{ Active::pattern('admin/maps/*') }}">
-                    <a href="{!!url('admin/maps')!!}"><span>{{ trans('menus.backend.maps.title') }}</span></a>
+                    <a href="{!!url('admin/maps/all')!!}"><span>{{ trans('menus.backend.maps.title') }}</span></a>
                 </li>
             @endauth
 

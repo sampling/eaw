@@ -2,15 +2,15 @@
 
 namespace App\Providers;
 
-use App\Services\Access\Access;
+use App\Services\Map;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
 /**
- * Class AccessServiceProvider
+ * Class MapServiceProvider
  * @package App\Providers
  */
-class AccessServiceProvider extends ServiceProvider
+class MapServiceProvider extends ServiceProvider
 {
     /**
      * Indicates if loading of the provider is deferred.
@@ -24,7 +24,7 @@ class AccessServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->registerBladeExtensions();
+       // $this->registerBladeExtensions();
     }
 
     /**
@@ -34,7 +34,7 @@ class AccessServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerAccess();
+        $this->registerMap();
         $this->registerFacade();
         $this->registerBindings();
     }
@@ -44,10 +44,10 @@ class AccessServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    private function registerAccess()
+    private function registerMap()
     {
-        $this->app->bind('access', function ($app) {
-            return new Access($app);
+        $this->app->bind('map', function ($app) {
+            return new Map($app);
         });
     }
 
@@ -60,7 +60,7 @@ class AccessServiceProvider extends ServiceProvider
     {
         $this->app->booting(function () {
             $loader = \Illuminate\Foundation\AliasLoader::getInstance();
-            $loader->alias('Access', \App\Services\Access\Facades\Access::class);
+            $loader->alias('Map', \App\Services\Map\Facades\Map::class);
         });
     }
 
@@ -70,33 +70,8 @@ class AccessServiceProvider extends ServiceProvider
     public function registerBindings()
     {
         $this->app->bind(
-            \App\Repositories\Frontend\User\UserContract::class,
-            \App\Repositories\Frontend\User\EloquentUserRepository::class
-        );
-
-        $this->app->bind(
-            \App\Repositories\Backend\User\UserContract::class,
-            \App\Repositories\Backend\User\EloquentUserRepository::class
-        );
-
-        $this->app->bind(
-            \App\Repositories\Backend\Role\RoleRepositoryContract::class,
-            \App\Repositories\Backend\Role\EloquentRoleRepository::class
-        );
-
-        $this->app->bind(
-            \App\Repositories\Backend\Permission\PermissionRepositoryContract::class,
-            \App\Repositories\Backend\Permission\EloquentPermissionRepository::class
-        );
-
-        $this->app->bind(
-            \App\Repositories\Backend\Permission\Group\PermissionGroupRepositoryContract::class,
-            \App\Repositories\Backend\Permission\Group\EloquentPermissionGroupRepository::class
-        );
-
-        $this->app->bind(
-            \App\Repositories\Backend\Permission\Dependency\PermissionDependencyRepositoryContract::class,
-            \App\Repositories\Backend\Permission\Dependency\EloquentPermissionDependencyRepository::class
+            \App\Repositories\Backend\Map\MapContract::class,
+            \App\Repositories\Backend\Map\EloquentMapRepository::class
         );
     }
 
