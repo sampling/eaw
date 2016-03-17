@@ -108,6 +108,13 @@ return [
     'attributes' => [
 
         'backend' => [
+            'maps' => [
+		'create' => 'Create map',
+                'name' => 'Name',
+                'description' => 'Description',
+                'file' => 'KML file',
+                'associated_users' => 'Choose users'
+            ],
             'access' => [
                 'permissions' => [
                     'associated_roles' => 'Associated Roles',

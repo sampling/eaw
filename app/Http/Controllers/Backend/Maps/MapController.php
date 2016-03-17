@@ -49,14 +49,13 @@ class MapController extends Controller
     }
 
     /**
-     * @param  CreateUserRequest $request
+     * @param  CreateMapRequest $request
      * @return mixed
      */
-    public function create(CreateUserRequest $request)
+    public function create(CreateMapRequest $request)
     {
-        return view('backend.access.create')
-            ->withRoles($this->roles->getAllRoles('sort', 'asc', true))
-            ->withPermissions($this->permissions->getAllPermissions());
+        return view('backend.map.create')
+            ->withUsers($this->users->getAllUsers('name', 'asc', true));
     }
 
     /**

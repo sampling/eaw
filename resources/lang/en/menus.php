@@ -14,6 +14,10 @@ return [
     */
 
     'backend' => [
+        'maps' => [
+             'create' => 'Add map',
+             'title' => 'Maps management' 
+        ],
         'access' => [
             'title' => 'Access Management',
 

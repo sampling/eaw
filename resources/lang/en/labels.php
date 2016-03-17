@@ -30,6 +30,19 @@ return [
     ],
 
     'backend' => [
+        'maps' => [
+            'table' => [
+                'id' => 'ID',
+                'name' => 'Name',
+                'file' => 'KML File',
+                'users' => 'Users',
+                'created' => 'Created',
+                'last_updated' => 'Updated',
+                'total' => 'Total',
+           ],
+           'create' => 'Add map',
+           'management' => 'Manage maps'
+        ],
         'access' => [
             'permissions' => [
                 'create' => 'Create Permission',
