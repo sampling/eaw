@@ -9,15 +9,15 @@ Route::group([
      * Map Management
      */
     Route::group(['namespace' => 'Maps'], function() {
-        Route::resource('all', 'MapController', ['except' => ['show']]);
+        Route::get('all', 'MapController@index')->name('admin.maps.index');
         Route::get('create', 'MapController@create')->name('admin.maps.create');
-        Route::post('create', 'MapController@save')->name('admin.maps.save');        
+        Route::post('create', 'MapController@store')->name('admin.maps.create');        
 
         /**
          * Specific Map
          */
         Route::group(['prefix' => 'map/{id}', 'where' => ['id' => '[0-9]+']], function() {
-            Route::get('delete', 'MapController@delete')->name('admin.maps.delete');
+            Route::delete('delete', 'MapController@delete')->name('admin.maps.delete');
             Route::get('edit', 'MapController@edit')->name('admin.maps.edit');
         });
     });

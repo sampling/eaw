@@ -81,29 +81,19 @@ class EloquentMapRepository implements MapContract
      * @throws UserNeedsRolesException
      * @return bool
      */
-    public function create($input, $roles, $permissions)
+    public function create($input, $users)
     {
-        $user = $this->createUserStub($input);
+        $map = $this->createMapStub($input);
 
-        if ($user->save()) {
-            //User Created, Validate Roles
-            $this->validateRoleAmount($user, $roles['assignees_roles']);
-
-            //Attach new roles
-            $user->attachRoles($roles['assignees_roles']);
-
-            //Attach other permissions
-            $user->attachPermissions($permissions['permission_user']);
-
-            //Send confirmation email if requested
-            if (isset($input['confirmation_email']) && $user->confirmed == 0) {
-                $this->user->sendConfirmationEmail($user->id);
+        if ($map->save()) {
+            //Attach new users
+            if ($users && $users['assignees_users'] && count($users['assignees_users'])) {
+                $map->attachUsers($users['assignees_users']);
             }
-
             return true;
         }
 
-        throw new GeneralException(trans('exceptions.backend.access.users.create_error'));
+        throw new GeneralException(trans('exceptions.backend.maps.create_error'));
     }
 
     /**
@@ -114,7 +104,7 @@ class EloquentMapRepository implements MapContract
      * @return bool
      * @throws GeneralException
      */
-    public function update($id, $input, $roles, $permissions)
+    public function update($id, $input, $users)
     {
         $user = $this->findOrThrowException($id);
         $this->checkUserByEmail($input, $user);
@@ -188,19 +178,6 @@ class EloquentMapRepository implements MapContract
         $user->attachRoles($roles['assignees_roles']);
     }
 
-    /**
-     * @param $permissions
-     * @param $user
-     */
-    private function flushPermissions($permissions, $user)
-    {
-        //Flush permissions out, then add array of new ones if any
-        $user->detachPermissions($user->permissions);
-        if (count($permissions['permission_user']) > 0) {
-            $user->attachPermissions($permissions['permission_user']);
-        }
-
-    }
 
     /**
      * @param  $roles
@@ -220,15 +197,19 @@ class EloquentMapRepository implements MapContract
      * @param  $input
      * @return mixed
      */
-    private function createUserStub($input)
+    private function createMapStub($input)
     {
-        $user                    = new User;
-        $user->name              = $input['name'];
-        $user->email             = $input['email'];
-        $user->password          = bcrypt($input['password']);
-        $user->status            = isset($input['status']) ? 1 : 0;
-        $user->confirmation_code = md5(uniqid(mt_rand(), true));
-        $user->confirmed         = isset($input['confirmed']) ? 1 : 0;
-        return $user;
+        $map                     = new Map;
+        $map->name              = $input['name'];
+        $map->description       = $input['description'];
+       
+        $destinationPath = '/var/www/html/eawMapy/public/kmls';
+        $extension = $input['kml_file_url']->getClientOriginalExtension(); 
+        $fileName = rand(11111,99999).'.'.$extension;
+        $input['kml_file_url']->move($destinationPath, $fileName); 
+        $map->kml_file_url      = $fileName;
+        $map->zoom              = 11;
+        $map->map_engine        = "google";
+        return $map;
     }
 }

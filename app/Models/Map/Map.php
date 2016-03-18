@@ -3,9 +3,9 @@
 namespace App\Models\Map;
 
 use Illuminate\Database\Eloquent\Model;
-// use App\Models\Access\Role\Traits\RoleAccess;
-// use App\Models\Access\Role\Traits\Attribute\RoleAttribute;
-// use App\Models\Access\Role\Traits\Relationship\RoleRelationship;
+use App\Models\Map\Traits\Map as MapTrait;
+use App\Models\Map\Traits\Attribute\MapAttribute;
+use App\Models\Map\Traits\Relationship\MapRelationship;
 
 /**
  * Class Map
@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Map extends Model
 {
-    // use RoleAccess, RoleAttribute, RoleRelationship;
+    use MapTrait, MapAttribute, MapRelationship;
 
     /**
      * The database table used by the model.

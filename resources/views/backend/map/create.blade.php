@@ -10,7 +10,7 @@
 @endsection
 
 @section('content')
-    {!! Form::open(['route' => 'admin.maps.create', 'class' => 'form-horizontal', 'role' => 'form', 'method' => 'post']) !!}
+    {!! Form::open(['route' => 'admin.maps.create', 'files' => 'true', 'class' => 'form-horizontal', 'role' => 'form', 'method' => 'post']) !!}
 
         <div class="box box-success">
             <div class="box-header with-border">
@@ -48,7 +48,7 @@
                                 <br/>
                             @endforeach
                         @else
-                            {{ trans('labels.backend.access.maps.no_users') }}
+                            {{ trans('labels.backend.maps.no_users') }}
                         @endif
                     </div>
                 </div><!--form control-->

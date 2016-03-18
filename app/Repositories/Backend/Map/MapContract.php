@@ -27,20 +27,18 @@ interface MapContract
 
     /**
      * @param $input
-     * @param $roles
-     * @param $permissions
+     * @param $users
      * @return mixed
      */
-    public function create($input, $roles, $permissions);
+    public function create($input, $users);
 
     /**
      * @param $id
      * @param $input
-     * @param $roles
-     * @param $permissions
+     * @param $users
      * @return mixed
      */
-    public function update($id, $input, $roles, $permissions);
+    public function update($id, $input, $users);
 
 
     /**

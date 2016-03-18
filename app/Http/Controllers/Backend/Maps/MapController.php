@@ -7,6 +7,7 @@ use App\Repositories\Backend\User\UserContract;
 use App\Repositories\Backend\Map\MapContract;
 use App\Http\Requests\Backend\Map\CreateMapRequest;
 use App\Http\Requests\Backend\Map\EditMapRequest;
+use App\Http\Requests\Backend\Map\StoreMapRequest;
 use App\Http\Requests\Backend\Map\UpdateMapRequest;
 use App\Http\Requests\Backend\Map\DeleteMapRequest;
 
@@ -59,17 +60,16 @@ class MapController extends Controller
     }
 
     /**
-     * @param  StoreUserRequest $request
+     * @param  StoreMapRequest $request
      * @return mixed
      */
-    public function store(StoreUserRequest $request)
+    public function store(StoreMapRequest $request)
     {
-        $this->users->create(
-            $request->except('assignees_roles', 'permission_user'),
-            $request->only('assignees_roles'),
-            $request->only('permission_user')
+        $this->maps->create(
+            $request->except('assignees_users'),
+            $request->only('assignees_users')
         );
-        return redirect()->route('admin.access.users.index')->withFlashSuccess(trans('alerts.backend.users.created'));
+        return redirect()->route('admin.maps.index')->withFlashSuccess(trans('alerts.backend.maps.created'));
     }
 
     /**
@@ -90,71 +90,27 @@ class MapController extends Controller
 
     /**
      * @param  $id
-     * @param  UpdateUserRequest $request
+     * @param  UpdateMapRequest $request
      * @return mixed
      */
-    public function update($id, UpdateUserRequest $request)
+    public function update($id, UpdateMapRequest $request)
     {
         $this->users->update($id,
-            $request->except('assignees_roles', 'permission_user'),
-            $request->only('assignees_roles'),
-            $request->only('permission_user')
+            $request->except('assignees_maps'),
+            $request->only('assignees_users')
         );
-        return redirect()->route('admin.access.users.index')->withFlashSuccess(trans('alerts.backend.users.updated'));
+        return redirect()->route('admin.maps.index')->withFlashSuccess(trans('alerts.backend.maps.updated'));
     }
 
     /**
      * @param  $id
-     * @param  DeleteUserRequest $request
+     * @param  DeleteMapRequest $request
      * @return mixed
      */
-    public function destroy($id, DeleteUserRequest $request)
+    public function delete($id, DeleteMapRequest $request)
     {
-        $this->users->destroy($id);
-        return redirect()->back()->withFlashSuccess(trans('alerts.backend.users.deleted'));
-    }
-
-    /**
-     * @param  $id
-     * @param  PermanentlyDeleteUserRequest $request
-     * @return mixed
-     */
-    public function delete($id, PermanentlyDeleteUserRequest $request)
-    {
-        $this->users->delete($id);
-        return redirect()->back()->withFlashSuccess(trans('alerts.backend.users.deleted_permanently'));
-    }
-
-    /**
-     * @param  $id
-     * @param  RestoreUserRequest $request
-     * @return mixed
-     */
-    public function restore($id, RestoreUserRequest $request)
-    {
-        $this->users->restore($id);
-        return redirect()->back()->withFlashSuccess(trans('alerts.backend.users.restored'));
-    }
-
-    /**
-     * @param  $id
-     * @param  $status
-     * @param  MarkUserRequest $request
-     * @return mixed
-     */
-    public function mark($id, $status, MarkUserRequest $request)
-    {
-        $this->users->mark($id, $status);
-        return redirect()->back()->withFlashSuccess(trans('alerts.backend.users.updated'));
-    }
-
-    /**
-     * @return mixed
-     */
-    public function deactivated()
-    {
-        return view('backend.access.deactivated')
-            ->withUsers($this->users->getUsersPaginated(25, 0));
+        $this->maps->delete($id);
+        return redirect()->back()->withFlashSuccess(trans('alerts.backend.maps.deleted'));
     }
 
     /**
@@ -164,39 +120,5 @@ class MapController extends Controller
     {
         return view('backend.access.deleted')
             ->withUsers($this->users->getDeletedUsersPaginated(25));
-    }
-
-    /**
-     * @param  $id
-     * @param  ChangeUserPasswordRequest $request
-     * @return mixed
-     */
-    public function changePassword($id, ChangeUserPasswordRequest $request)
-    {
-        return view('backend.access.change-password')
-            ->withUser($this->users->findOrThrowException($id));
-    }
-
-    /**
-     * @param  $id
-     * @param  UpdateUserPasswordRequest $request
-     * @return mixed
-     */
-    public function updatePassword($id, UpdateUserPasswordRequest $request)
-    {
-        $this->users->updatePassword($id, $request->all());
-        return redirect()->route('admin.access.users.index')->withFlashSuccess(trans('alerts.backend.users.updated_password'));
-    }
-
-    /**
-     * @param  $user_id
-     * @param  FrontendUserContract $user
-     * @param  ResendConfirmationEmailRequest $request
-     * @return mixed
-     */
-    public function resendConfirmationEmail($user_id, FrontendUserContract $user, ResendConfirmationEmailRequest $request)
-    {
-        $user->sendConfirmationEmail($user_id);
-        return redirect()->back()->withFlashSuccess(trans('alerts.backend.users.confirmation_email'));
     }
 }
